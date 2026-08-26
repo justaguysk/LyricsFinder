@@ -1,0 +1,79 @@
+#footer {
+    position: fixed;
+    
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+
+    height: 2.5em;
+    width: auto;
+    background-color: #e6e9ee;
+
+    border-top: 0.12em solid #a0a4ab;
+    border-bottom: 0.12em solid #a0a4ab;
+    border-top-left-radius: 0.4em;
+    border-top-right-radius: 0.4em;
+    box-shadow: 0em -0.5em 0.5em rgba(167, 167, 167, 0.4); 
+
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.buttonsdiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-right: 2em;
+}
+
+.button {
+    border: none;
+    background: none;
+    height: 2.3em;
+    width: 2.3em;
+    transition: 0.5s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.4em;
+}
+
+#quitButton {
+    margin-right: 1.5em;
+}
+
+.button:hover {
+    background-color: #c4c4cd;
+    transition: 0.2s;
+}
+
+.foot-image {
+    height: 2.1em;
+    width: 2.1em;
+    object-fit: contain;
+}
+
+.statusdiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#player, #status, #sep {
+    color: #3e3f43;
+}

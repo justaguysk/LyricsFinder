@@ -1,0 +1,56 @@
+#header {
+    height: 6em;
+    width: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    background-color: #28292b;
+    border: 0.12em solid #333539;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    box-shadow: 0em 0.5em 0.5em rgba(30, 30, 30, 0.4); 
+
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+#trackinfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.image {
+    height: 4em;
+    width: 4em;
+    border-radius: 0.25em;
+    margin-right: 1.25em;
+    box-shadow: 0em 0em 1em rgba(92, 93, 94, 0.2);
+
+    object-fit: cover;
+    object-fit: contain;
+}
+
+#trackName {
+    font-size: 1.15em;
+    font-weight: bold;
+    color: rgb(216, 223, 231);
+    line-height: 1em;
+    margin-bottom: 0.6em;
+}
+
+#artistName {
+    font-size: 0.95em;
+    color: rgb(198, 206, 213);
+}

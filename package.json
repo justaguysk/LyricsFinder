@@ -1,0 +1,28 @@
+{
+  "name": "lyricsfinder",
+  "productName": "LyricsFinder",
+  "version": "1.0.0",
+  "description": "Searches for lyrics to currently played audio system-wide",
+  "license": "MIT",
+  "author": "AN",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.2",
+    "@electron-forge/maker-deb": "^6.4.2",
+    "@electron-forge/maker-rpm": "^6.4.2",
+    "@electron-forge/maker-squirrel": "^6.4.2",
+    "@electron-forge/maker-zip": "^6.4.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "electron": "^43.4.1"
+  },
+  "dependencies": {
+    "command-exists": "^1.2.9",
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}
