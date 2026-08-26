@@ -81,7 +81,9 @@ app.on('activate', () => {
 
 
 function spawnPy(pyCom) {
-  pythonProcess = spawn(pyCom, [path.join(__dirname, 'main.py')]);
+  pythonProcess = spawn(pyCom, [path.join(__dirname, 'main.py'), {
+    cwd: path.join(__dirname),
+  }]);
 
   let buffer = '';
 
@@ -164,10 +166,10 @@ function killPy() {
 function switchConfig() {
   if (config.mode === "light") {
     config.mode = "dark";
-    fs.writeFileSync('./assets/config.json', JSON.stringify(config, null, null))
+    fs.writeFileSync(path.join(__dirname, './assets/config.json'), JSON.stringify(config, null, null))
   } else {
     config.mode = "light";
-    fs.writeFileSync('./assets/config.json', JSON.stringify(config, null, null))
+    fs.writeFileSync(path.join(__dirname, './assets/config.json'), JSON.stringify(config, null, null))
   }
 }
 
