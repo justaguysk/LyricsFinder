@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('fs');
-const config = require('./assets/config.json');
+const config = require(path.join(__dirname, 'assets/config.json'));
 let commandExists = require('command-exists').sync;
 
 
@@ -17,6 +17,7 @@ let isQuitting = false;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
+    icon: path.join(__dirname, 'assets/icon.png'),
     width: 460,
     height: 670,
     autoHideMenuBar: true,
@@ -133,7 +134,7 @@ function spawnPy(pyCom) {
 
   pythonProcess.stderr.on('data', (data) => {
     if (mainWindow) {
-      mainWindow.webContents.send('update-lyrics', data);
+      mainWindow.webContents.send('update-lyrics', `${data.toString()}`);
     }
   });
 }
@@ -166,10 +167,10 @@ function killPy() {
 function switchConfig() {
   if (config.mode === "light") {
     config.mode = "dark";
-    fs.writeFileSync(path.join(__dirname, './assets/config.json'), JSON.stringify(config, null, null))
+    fs.writeFileSync(path.join(__dirname, 'assets/config.json'), JSON.stringify(config, null, null))
   } else {
     config.mode = "light";
-    fs.writeFileSync(path.join(__dirname, './assets/config.json'), JSON.stringify(config, null, null))
+    fs.writeFileSync(path.join(__dirname, 'assets/config.json'), JSON.stringify(config, null, null))
   }
 }
 

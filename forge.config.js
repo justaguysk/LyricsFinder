@@ -1,7 +1,10 @@
 module.exports = {
   packagerConfig: {
     asar: true,
-    executableName: 'lyricsfinder'
+    executableName: 'lyricsfinder',
+    extraResource: [
+      './.venv'
+    ]
   },
   rebuildConfig: {},
   makers: [
@@ -15,11 +18,11 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {
+        options: {
+            icon: path.join(__dirname, 'assets/icon.png')
+          }
+      },
     },
   ],
   plugins: [
