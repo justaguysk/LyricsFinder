@@ -2,7 +2,9 @@ const path = require('path');
 
 module.exports = {
   packagerConfig: {
-    asar: false,
+    asar: {
+      unpack: '{main.py,config.json,noimage.png}'
+    },
     executableName: 'lyricsfinder',
     extraResource: [
       './.venv'

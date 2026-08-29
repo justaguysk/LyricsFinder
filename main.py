@@ -34,15 +34,15 @@ def deleteTemp():
 
 ENDPOINT = 'https://api.lyrics.ovh/v1'
 
-noimage = './assets/noimage.png'
+noimage = Path(sys.argv[2]) / "noimage.png"
 
 currentArtist = currentTitle = currentPlayer = currentStatus = ''
-currentImgPath = noimage
+currentImgPath = str(noimage)
 plainJS = {
     "title": "No media playing",
     "artist": "",
     "lyrics": ". . .",
-    "cover": noimage,
+    "cover": str(noimage),
     "player": "N/A",
     "status": "N/A"
 }
@@ -140,7 +140,8 @@ def runLyricFinder():
                 })
             except Exception as e:
                 writeToMainJS({
-                    "error": f"Shutil error: {e}"
+                    "error": f"Shutil error: {e}",
+                    "cover": str(noimage)
                 })
 
         

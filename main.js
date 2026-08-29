@@ -2,11 +2,11 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('fs');
-
-const config = require(path.join(__dirname, 'assets/config.json'));
 let commandExists = require('command-exists').sync;
 
-
+let config;
+let configPath;
+let basedir;
 let mainWindow;
 let windowReady = new Promise((resolve) => {
   global.resolveWindowReady = resolve;
@@ -15,8 +15,22 @@ let pythonProcess;
 let isQuitting = false;
 
 
-
 const createWindow = () => {
+  if (!basedir) {
+    basedir = (app.isPackaged) ? path.join(process.resourcesPath, 'app.asar.unpacked') : __dirname;
+    console.log(`basedir: ${basedir}`);
+  }
+  
+  if (!config) {
+    configPath = path.join(app.getPath('userData'), 'config.json');
+
+    if (!fs.existsSync(configPath)) {
+      fs.copyFileSync(path.join(basedir, 'config.json'), configPath);
+    }
+
+    config = require(configPath);
+  }
+
   mainWindow = new BrowserWindow({
     icon: path.join(__dirname, 'assets/icon.png'),
     width: 460,
@@ -84,8 +98,9 @@ app.on('activate', () => {
 
 function spawnPy(pyCom) {
   pythonProcess = spawn(pyCom, [
-    path.join(__dirname, 'main.py'),
-    path.join(app.getPath('userData'), 'temp')
+    path.join(basedir, 'main.py'),
+    path.join(app.getPath('userData'), 'temp'),
+    basedir
   ]);
 
   let buffer = '';
@@ -167,12 +182,14 @@ function killPy() {
 
 
 function switchConfig() {
-  if (config.mode === "light") {
-    config.mode = "dark";
-    fs.writeFileSync(path.join(__dirname, 'assets/config.json'), JSON.stringify(config, null, null))
-  } else {
-    config.mode = "light";
-    fs.writeFileSync(path.join(__dirname, 'assets/config.json'), JSON.stringify(config, null, null))
+  if (config) {
+    if (config.mode === "light") {
+      config.mode = "dark";
+      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
+    } else {
+      config.mode = "light";
+      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
+    }
   }
 }
 
