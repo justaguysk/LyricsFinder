@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('fs');
+
 const config = require(path.join(__dirname, 'assets/config.json'));
 let commandExists = require('command-exists').sync;
 
@@ -28,7 +29,7 @@ const createWindow = () => {
     }
   })
 
-  mainWindow.loadFile(path.join(__dirname, 'index.html'))
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -82,9 +83,10 @@ app.on('activate', () => {
 
 
 function spawnPy(pyCom) {
-  pythonProcess = spawn(pyCom, [path.join(__dirname, 'main.py'), {
-    cwd: path.join(__dirname),
-  }]);
+  pythonProcess = spawn(pyCom, [
+    path.join(__dirname, 'main.py'),
+    path.join(app.getPath('userData'), 'temp')
+  ]);
 
   let buffer = '';
 

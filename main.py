@@ -18,7 +18,7 @@ signal.signal(signal.SIGTERM, shutdown)
 signal.signal(signal.SIGINT, shutdown)
 
 
-temp = './assets/temp'
+temp = sys.argv[1]
 resolvedTemp = Path(temp).resolve()
 
 def deleteTemp():
@@ -130,14 +130,17 @@ def runLyricFinder():
                 currentImgPath = imgPath
                 filename = Path(imgPath).name
                 newpath = Path(temp) / filename
+
+                newpath.parent.mkdir(parents=True, exist_ok=True)
+
                 shutil.copy2(currentImgPath, newpath)
                 currentImgPath = newpath
                 writeToMainJS({
                     "cover": str(newpath)
                 })
-            except:
+            except Exception as e:
                 writeToMainJS({
-                    "error": "Shutil-related code error"
+                    "error": f"Shutil error: {e}"
                 })
 
         

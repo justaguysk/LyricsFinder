@@ -1,10 +1,12 @@
+const path = require('path');
+
 module.exports = {
   packagerConfig: {
-    asar: true,
+    asar: false,
     executableName: 'lyricsfinder',
     extraResource: [
       './.venv'
-    ]
+    ],
   },
   rebuildConfig: {},
   makers: [
@@ -23,12 +25,6 @@ module.exports = {
             icon: path.join(__dirname, 'assets/icon.png')
           }
       },
-    },
-  ],
-  plugins: [
-    {
-      name: '@electron-forge/plugin-auto-unpack-natives',
-      config: {},
     },
   ],
 };
