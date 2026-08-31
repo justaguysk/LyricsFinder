@@ -153,6 +153,13 @@ def runLyricFinder():
             rdict = json.loads(r.text)
             lyrics = rdict["lyrics"].replace('\n', '<br>')
             
+        elif ('-' in currentArtist) or ('/' in currentArtist) or ('-' in currentTitle) or ('/' in currentTitle):
+            r2 = requests.get(f'{ENDPOINT}/{quote(currentArtist)}/{quote(currentTitle)}')
+
+            if r.status_code == 200: 
+                rdict = json.loads(r2.text)
+                lyrics = rdict["lyrics"].replace('\n', '<br>')
+            
 
         writeToMainJS({
             "lyrics": lyrics
