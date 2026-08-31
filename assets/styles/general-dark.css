@@ -28,5 +28,12 @@ p {
     border-radius: 0.115em;
 }
 
+::selection {
+    background: rgb(54, 54, 64);
+    color: rgb(190, 197, 209);
+}
 
-
+#trackName::selection, #artistName::selection {
+    background: rgb(76, 76, 86);
+    color: rgb(227, 239, 253);
+}

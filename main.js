@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu } = require('electron');
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('fs');
@@ -42,6 +42,14 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js')
     }
   })
+
+  const rightClickMenu = Menu.buildFromTemplate([
+    { role: 'copy' },
+    { role: 'selectAll' }
+  ]);
+  mainWindow.webContents.on('context-menu', (_event, params) => {
+    rightClickMenu.popup();
+  });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 

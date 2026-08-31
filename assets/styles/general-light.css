@@ -4,7 +4,7 @@ body {
     margin-left: 2em;
     margin-right: 2em;
     padding: 0;
-    background-color: rgb(221, 221, 225)
+    background-color: rgb(221, 221, 225);
 }
 
 p {
@@ -26,4 +26,13 @@ p {
 ::-webkit-scrollbar-thumb {
     background: #686a6c;
     border-radius: 0.115em;
+}
+
+::selection {
+    background: rgb(182, 182, 199);
+    color: rgb(35, 37, 43);
+}
+
+#trackName::selection, #artistName::selection {
+    background: rgb(196, 196, 217);
 }
