@@ -53,7 +53,7 @@ def formatInfo(string):
     for char in charList:
         if char in string:
             pos = string.find("-")
-            string = string[:pos-1] if (pos > 0 and string[pos-1] == ' ') else string[:pos]
+            string = string[:pos] if (pos > 0 and string[pos-1] == ' ') else string[:pos+1]
 
     return string
 
@@ -97,7 +97,7 @@ def runLyricFinder():
             continue
 
         listout = metadata.stdout.split('\n')
-        title, artist, imgPath, player = formatInfo(listout[0]), formatInfo(listout[1]), listout[2].replace('file://', ''), listout[3]
+        title, artist, imgPath, player = listout[0], listout[1], listout[2].replace('file://', ''), listout[3]
 
         
         global currentArtist
@@ -145,7 +145,7 @@ def runLyricFinder():
                 })
 
         
-        r = requests.get(f'{ENDPOINT}/{quote(currentArtist)}/{quote(currentTitle)}')
+        r = requests.get(f'{ENDPOINT}/{quote(formatInfo(currentArtist))}/{quote(formatInfo(currentTitle))}')
 
         lyrics = "Lyrics not found"
 
