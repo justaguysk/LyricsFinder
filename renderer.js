@@ -12,13 +12,14 @@ const switchImg = document.getElementById("switchImg");
 const quitImg = document.getElementById("quitImg");
 const header = document.getElementById("header");
 const footer = document.getElementById("footer");
-const nolinux = document.getElementById("nolinux");
-const nopython = document.getElementById("nopython");
-const noplayerctl = document.getElementById("noplayerctl");
-const installpy = document.getElementById("installpy");
+const onmac = document.getElementById("onmac");
+const nocli = document.getElementById("nocli");
 const installplayer = document.getElementById("installplayer");
 const quits = document.querySelectorAll(".quits");
 const alertcss = document.getElementById("alertcss");
+const cliText = document.getElementById("clitext");
+
+let platform;
 
 
 function onSwitchClick() {
@@ -49,28 +50,19 @@ function HideUI() {
     lyrics.style.display = "none";
 }
 
-function NoLinux() {
+function OnMac() {
     HideUI();
-    nolinux.style.display = "flex";
+    onmac.style.display = "flex";
 }
 
-function NoPython() {
+function NoCli() {
     HideUI();
-    nopython.style.display = "flex";
-}
-
-function NoPlayerctl() {
-    HideUI();
-    noplayerctl.style.display = "flex";
+    nocli.style.display = "flex";
 }
 
 
 switchbutton.addEventListener('click', () => {
     onSwitchClick();
-})
-
-installpy.addEventListener('click', () => {
-    window.electronAPI.onInstallPyClicked(null);
 })
 
 installplayer.addEventListener('click', () => {
@@ -85,11 +77,11 @@ quits.forEach(button => {
 
 
 window.electronAPI.onUpdateTitle((value) => {
-    title.innerHTML = value;
+    title.textContent = value;
 })
 
 window.electronAPI.onUpdateArtist((value) => {
-    artist.innerHTML = value;
+    artist.textContent = value;
 })
 
 window.electronAPI.onUpdateCover((value) => {
@@ -101,25 +93,25 @@ window.electronAPI.onUpdateLyrics((value) => {
 })
 
 window.electronAPI.onUpdateStatus((value) => {
-    stat.innerHTML = value;
+    stat.textContent = value;
 })
 
 window.electronAPI.onUpdatePlayer((value) => {
-    player.innerHTML = value;
+    player.textContent = value;
+})
+
+window.electronAPI.onConsoleLog((value) => {
+    console.error(`Python error: ${value}`);
 })
 
 window.electronAPI.onSwitchMode(() => {
     onSwitchClick();
 })
 
-window.electronAPI.onNoLinux(() => {
-    NoLinux();
+window.electronAPI.onOnMac(() => {
+    OnMac();
 })
 
-window.electronAPI.onNoPython(() => {
-    NoPython();
-})
-
-window.electronAPI.onNoPlayerctl(() => {
-    NoPlayerctl();
+window.electronAPI.onNoCli(() => {
+    NoCli();
 })

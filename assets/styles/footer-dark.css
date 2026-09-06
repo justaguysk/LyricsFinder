@@ -27,7 +27,7 @@
     padding-bottom: 0.1em;
 }
 
-.buttonsdiv {
+#buttonsdiv {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -64,7 +64,7 @@
     object-fit: contain;
 }
 
-.statusdiv {
+#statusdiv {
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -2,37 +2,33 @@ const { app, BrowserWindow, ipcMain, shell, Menu } = require('electron');
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const fs = require('fs');
+const configPath = path.join(app.getPath('userData'), 'config.json');
+const basedir = (app.isPackaged) ? path.join(process.resourcesPath, 'app.asar.unpacked') : __dirname;
 let commandExists = require('command-exists').sync;
 
-let config;
-let configPath;
-let basedir;
+
+app.setAppUserModelId("com.squirrel.zebrak.LyricsFinder");
+
 let mainWindow;
+let config;
 let windowReady = new Promise((resolve) => {
   global.resolveWindowReady = resolve;
 });
 let pythonProcess;
 let isQuitting = false;
 
-
+//npm run make -- --platform win32
 const createWindow = () => {
-  if (!basedir) {
-    basedir = (app.isPackaged) ? path.join(process.resourcesPath, 'app.asar.unpacked') : __dirname;
-    console.log(`basedir: ${basedir}`);
-  }
+  console.log(`basedir: ${basedir}`);
   
-  if (!config) {
-    configPath = path.join(app.getPath('userData'), 'config.json');
-
-    if (!fs.existsSync(configPath)) {
-      fs.copyFileSync(path.join(basedir, 'config.json'), configPath);
-    }
-
-    config = require(configPath);
+  if (!fs.existsSync(configPath)) {
+    fs.copyFileSync(path.join(basedir, 'config.json'), configPath);
   }
 
+  config = require(configPath);
+  
   mainWindow = new BrowserWindow({
-    icon: path.join(__dirname, 'assets/icon.png'),
+    icon: path.join(__dirname, 'assets', 'icon.png'),
     width: 460,
     height: 670,
     autoHideMenuBar: true,
@@ -64,28 +60,22 @@ const createWindow = () => {
   mainWindow.webContents.on('did-finish-load', () => {
     global.resolveWindowReady();
 
-    if (process.platform !== 'linux') {
-      mainWindow.webContents.send('no-linux');
+    if (process.platform === 'darwin') {
+      mainWindow.webContents.send('on-mac');
     } else {
       if (config.mode === "light") {
         switchConfig();
         mainWindow.webContents.send('switch-mode');
       }
 
-      let pyCom;
-
-      if (!commandExists('python') && !commandExists('python3')) {
-        mainWindow.webContents.send('no-python');
-      } else if (!commandExists('playerctl')) {
-        mainWindow.webContents.send('no-playerctl');
+      if (process.platform === 'linux' && !commandExists('playerctl')) {
+        mainWindow.webContents.send('no-cli');
       } else {
-        if (!commandExists('python')) {
-          pyCom = 'python3'
-        } else {
-          pyCom = 'python'
-        }
+        const pythonExe = (process.platform === 'linux') 
+          ? path.join(basedir, 'pyInstaller', 'main') 
+          : path.join(basedir, 'pyInstaller', 'main.exe');
 
-        spawnPy(pyCom);
+        spawnPy(pythonExe);
       }
     }
   });
@@ -93,20 +83,19 @@ const createWindow = () => {
 
 
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
 })
 
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    createWindow();
   }
 })
 
 
 function spawnPy(pyCom) {
   pythonProcess = spawn(pyCom, [
-    path.join(basedir, 'main.py'),
     path.join(app.getPath('userData'), 'temp'),
     basedir
   ]);
@@ -135,7 +124,7 @@ function spawnPy(pyCom) {
           } 
           
           if (Object.hasOwn(response, "cover")) {
-            mainWindow.webContents.send('update-cover', path.normalize(response["cover"]));
+            mainWindow.webContents.send('update-cover', response["cover"]);
           } 
           
           if (Object.hasOwn(response, "status")) {
@@ -147,7 +136,7 @@ function spawnPy(pyCom) {
           }  
           
           if (Object.hasOwn(response, "error")) {
-            mainWindow.webContents.send('update-lyrics', response["error"]);
+            mainWindow.webContents.send('console-log', response["error"])
           } 
           
         } catch (error) {
@@ -172,19 +161,36 @@ function killPy() {
       return;
     }
 
-    pythonProcess.kill('SIGTERM');
+    if (process.platform === 'win32') {
+      const { exec } = require('child_process');
 
-    const killTimeout = setTimeout(() => {
-      if (!pythonProcess.killed) {
-        pythonProcess.kill('SIGKILL');
-      }
-      resolve();
-    }, 2000);
+      exec(`taskkill /PID ${pythonProcess.pid}`, (error) => {
+          if (error && error.code !== 128) {
+            exec(`taskkill /PID ${pythonProcess.pid} /F`, (forceError) => {
+              if (forceError && forceError.code !== 128) {
+                console.error('Force kill error:', forceError);
+              }
+              setTimeout(resolve, 500);
+            });
+          } else {
+            setTimeout(resolve, 1000);
+          }
+      });
+    } else {
+      pythonProcess.kill('SIGTERM');
 
-    pythonProcess.on('exit', () => {
-      clearTimeout(killTimeout);
-      resolve();
-    });
+      const killTimeout = setTimeout(() => {
+        if (!pythonProcess.killed) {
+          pythonProcess.kill('SIGKILL');
+        }
+        resolve();
+      }, 2000);
+
+      pythonProcess.on('exit', () => {
+        clearTimeout(killTimeout);
+        resolve();
+      });
+    }
   });
 }
 
@@ -209,10 +215,6 @@ ipcMain.on('switch-config', () => {
 
 ipcMain.on('quit-click', () => {
   app.quit();
-})
-
-ipcMain.on('install-py', () => {
-  shell.openExternal('https://www.python.org/downloads/');    
 })
 
 ipcMain.on('install-player', () => {

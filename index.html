@@ -19,7 +19,7 @@
   </head>
   <body>
     <div id="header">
-      <img id="coverArt" class="image" src="noimage.png" alt="cover">
+      <img id="coverArt" src="noimage.png" alt="cover">
       <div id="trackinfo">
         <p id="trackName">Track</p>
         <p id="artistName">Artist</p>
@@ -31,7 +31,7 @@
       </p>
     </div>
     <div id="footer">
-      <div class="buttonsdiv">
+      <div id="buttonsdiv">
         <button id="quitButton" class="button quits">
           <img id="quitImg" class="foot-image" src="assets/quit-dark.png" alt="quit">
         </button>
@@ -39,30 +39,21 @@
           <img id="switchImg" class="foot-image" src="assets/darkmode.png" alt="mode">
         </button>
       </div>
-      <div class="statusdiv">
+      <div id="statusdiv">
         <p id="player">N/A</p>
         <p id="sep">&nbsp; - &nbsp;</p>
         <p id="status">N/A</p>
       </div>
     </div>
-    <div id="nolinux">
+    <div id="onmac">
       <div class="no">
-        <p class="notext">This program currently supports Linux devices only.</p>
+        <p class="notext">This program currently supports Linux and Windows devices only.</p>
         <button class="yesbutton quits">Quit</button>
       </div>
     </div>
-    <div id="nopython">
+    <div id="nocli">
       <div class="no">
-        <p class="notext">This program requires Python to be installed on your device.</p>
-        <div class="multibuttons">
-          <button class="nobutton quits">Quit</button>
-          <button id="installpy" class="yesbutton">Install</button>
-        </div>
-      </div>
-    </div>
-    <div id="noplayerctl">
-      <div class="no">
-        <p class="notext">This program requires playerctl to be installed on your device.</p>
+        <p class="notext" id="clitext">This program requires playerctl to be installed on your device.</p>
         <div class="multibuttons">
           <button id="quitplayer" class="nobutton quits">Quit</button>
           <button id="installplayer" class="yesbutton">Install</button>

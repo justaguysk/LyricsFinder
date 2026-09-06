@@ -32,7 +32,7 @@
     text-overflow: ellipsis;
 }
 
-.image {
+#coverArt {
     height: 4em;
     width: 4em;
     border-radius: 0.25em;

@@ -3,28 +3,25 @@ const path = require('path');
 module.exports = {
   packagerConfig: {
     asar: {
-      unpack: '{main.py,config.json,noimage.png}'
+      unpack: '{config.json,noimage.png}',
+      unpackDir: 'pyInstaller'
     },
     executableName: 'lyricsfinder',
-    extraResource: [
-      './.venv'
-    ],
+    ignore: '.venv',
   },
   rebuildConfig: {},
   makers: [
     {
-      name: '@electron-forge/maker-squirrel',
-      config: {},
-    },
-    {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+      platforms: ['win32'],
+      setupIcon: path.join(__dirname, 'assets', 'icon.ico'),
+      icon: path.join(__dirname, 'assets', 'icon.ico')
     },
     {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
-            icon: path.join(__dirname, 'assets/icon.png')
+            icon: path.join(__dirname, 'assets', 'icon.png')
           }
       },
     },
