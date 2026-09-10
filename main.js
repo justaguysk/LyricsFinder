@@ -7,7 +7,7 @@ const basedir = (app.isPackaged) ? path.join(process.resourcesPath, 'app.asar.un
 let commandExists = require('command-exists').sync;
 
 
-app.setAppUserModelId("com.squirrel.zebrak.LyricsFinder");
+app.setAppUserModelId("com.windows.zebrak.LyricsFinder");
 
 let mainWindow;
 let config;
@@ -81,19 +81,6 @@ const createWindow = () => {
   });
 }
 
-
-app.whenReady().then(() => {
-  createWindow();
-})
-
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-})
-
-
 function spawnPy(pyCom) {
   pythonProcess = spawn(pyCom, [
     path.join(app.getPath('userData'), 'temp'),
@@ -154,6 +141,45 @@ function spawnPy(pyCom) {
 }
 
 
+app.whenReady().then(() => {
+  createWindow();
+})
+
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+})
+
+
+function switchConfig() {
+  if (config) {
+    if (config.mode === "light") {
+      config.mode = "dark";
+      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
+    } else {
+      config.mode = "light";
+      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
+    }
+  }
+}
+
+
+ipcMain.on('switch-config', () => {
+  switchConfig();
+})
+
+
+ipcMain.on('quit-click', () => {
+  app.quit();
+})
+
+ipcMain.on('install-player', () => {
+  shell.openExternal('https://github.com/altdesktop/playerctl#installing');
+})
+
+
 function killPy() {
   return new Promise((resolve) => {
     if (!pythonProcess || pythonProcess.killed) {
@@ -195,32 +221,6 @@ function killPy() {
 }
 
 
-function switchConfig() {
-  if (config) {
-    if (config.mode === "light") {
-      config.mode = "dark";
-      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
-    } else {
-      config.mode = "light";
-      fs.writeFileSync(configPath, JSON.stringify(config, null, null));
-    }
-  }
-}
-
-
-ipcMain.on('switch-config', () => {
-  switchConfig();
-})
-
-
-ipcMain.on('quit-click', () => {
-  app.quit();
-})
-
-ipcMain.on('install-player', () => {
-  shell.openExternal('https://github.com/altdesktop/playerctl#installing');
-})
-
 app.on('before-quit', async (event) => {
   if (isQuitting) return;
   isQuitting = true;
@@ -239,7 +239,5 @@ windowReady.then(() => {
 
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
 })

@@ -22,11 +22,28 @@ def shutdown(signum, frame):
 
 
 signal.signal(signal.SIGTERM, shutdown)
-signal.signal(signal.SIGINT, shutdown)
+signal.signal(signal.SIGINT, shutdown) 
 
+
+ENDPOINT = 'https://api.lyrics.ovh/v1'
 
 temp = sys.argv[1]
 resolvedTemp = Path(temp).resolve()
+noimage = Path(sys.argv[2]) / "noimage.png"
+
+currentArtist = currentTitle = currentPlayer = currentStatus = currentImgObj = ''
+currentImgPath = str(noimage)
+
+plainJS = {
+    "title": "No media playing",
+    "artist": "",
+    "lyrics": ". . .",
+    "cover": "file:///" + str(noimage).replace('\\', '/'),
+    "player": "N/A",
+    "status": "N/A"
+}
+plainSent = False
+
 
 def deleteTemp():
     try:
@@ -41,21 +58,6 @@ def deleteTemp():
         })
 
 
-ENDPOINT = 'https://api.lyrics.ovh/v1'
-
-noimage = Path(sys.argv[2]) / "noimage.png"
-
-currentArtist = currentTitle = currentPlayer = currentStatus = currentImgObj = ''
-currentImgPath = str(noimage)
-plainJS = {
-    "title": "No media playing",
-    "artist": "",
-    "lyrics": ". . .",
-    "cover": "file:///" + str(noimage).replace('\\', '/'),
-    "player": "N/A",
-    "status": "N/A"
-}
-
 def formatInfo(string):
     charList = ['-', '/']
 
@@ -68,6 +70,25 @@ def formatInfo(string):
 
 
 def writeToMainJS(object):
+    if object == 'plain':
+        global plainSent
+
+        if plainSent:
+            return
+
+
+        global plainJS
+        global currentTitle
+        global currentArtist
+        global currentPlayer
+        global currentStatus
+
+        object = plainJS
+        currentTitle = plainJS["title"]
+        currentArtist = plainJS["artist"]
+        currentPlayer = plainJS["player"]
+        currentStatus = plainJS["status"]
+
     try:
         sys.stdout.buffer.write(json.dumps(object).encode() + b'\0')
         sys.stdout.buffer.flush()
@@ -125,6 +146,9 @@ async def saveThumbnail(obj):
         return None
 
     try:
+        if not obj:
+            return noimage
+
         stream = await obj.open_read_async()
         reader = DataReader(stream)
         await reader.load_async(stream.size)
@@ -154,12 +178,14 @@ def runLyricFinder():
         global currentStatus
         global currentImgObj
         global currentImgPath
+        global plainSent
 
         if sys.platform == 'linux':
             status = subprocess.run(["playerctl", "status"], capture_output=True, text=True)
 
             if status.stderr != '':
-                writeToMainJS(plainJS)
+                writeToMainJS('plain')
+                plainSent = True
                 time.sleep(2)
                 continue
 
@@ -168,6 +194,7 @@ def runLyricFinder():
                 writeToMainJS({
                     "status": currentStatus
                 })
+                plainSent = False
                 
 
             metadata = subprocess.run(
@@ -180,17 +207,19 @@ def runLyricFinder():
             )
 
             if metadata.stderr != '':
-                writeToMainJS(plainJS)
+                writeToMainJS('plain')
+                plainSent = True
                 time.sleep(2)
                 continue
 
             listout = metadata.stdout.split('\n')
-            title, artist, imgPath, player = listout[0], listout[1], listout[2].replace('file://', ''), listout[3] 
+            title, artist, imgPath, player = listout[0], listout[1], listout[2].replace('file://', ''), listout[3]
         else:
             metadata = asyncio.run(getWindowsMetadata())
 
             if not metadata:
-                writeToMainJS(plainJS)
+                writeToMainJS('plain')
+                plainSent = True
                 time.sleep(2)
                 continue
 
@@ -201,34 +230,46 @@ def runLyricFinder():
                 writeToMainJS({
                     "status": currentStatus
                 })
+                plainSent = False
 
             if imgObj != currentImgObj:
                 currentImgObj = imgObj
                 currentImgPath = asyncio.run(saveThumbnail(currentImgObj))
                 winImage = True
 
+
+        plainSent = False
         
         global currentArtist
         global currentTitle
         global currentPlayer
 
-        if artist == currentArtist and title == currentTitle:
-            time.sleep(2)
-            continue
+        imgRetry = False
 
-        if player != currentPlayer:
-            currentPlayer = player
+        if artist == currentArtist and title == currentTitle:
+            if winImage:
+                imgRetry = True
+            else:
+                time.sleep(2)
+                continue
+
+        
+        if not imgRetry:
+            currentTitle = title
+            currentArtist = artist
+
             writeToMainJS({
-                "player": currentPlayer
+                "title": currentTitle,
+                "artist": currentArtist,
+                "lyrics": "Searching..."
             })
 
-        currentTitle = title
-        currentArtist = artist
 
-        writeToMainJS({
-            "title": currentTitle,
-            "artist": currentArtist
-        })
+            if player != currentPlayer:
+                currentPlayer = player
+                writeToMainJS({
+                    "player": currentPlayer
+                })
 
 
         if sys.platform == 'linux' and imgPath != currentImgPath:
@@ -257,7 +298,11 @@ def runLyricFinder():
                 "cover": "file:///" + str(currentImgPath).replace('\\', '/')
             })
 
-        
+            if imgRetry:
+                time.sleep(2)
+                continue
+
+
         r = requests.get(f'{ENDPOINT}/{quote(formatInfo(currentArtist))}/{quote(formatInfo(currentTitle))}')
 
         lyrics = "Lyrics not found"
@@ -277,6 +322,7 @@ def runLyricFinder():
         writeToMainJS({
             "lyrics": lyrics
         })
+
         time.sleep(2)
 
             

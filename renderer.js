@@ -18,8 +18,7 @@ const installplayer = document.getElementById("installplayer");
 const quits = document.querySelectorAll(".quits");
 const alertcss = document.getElementById("alertcss");
 const cliText = document.getElementById("clitext");
-
-let platform;
+const root = document.querySelector(':root');
 
 
 function onSwitchClick() {
@@ -42,6 +41,50 @@ function onSwitchClick() {
     }
 
     window.electronAPI.onSwitchClicked(null);
+}
+
+function scrollAnimate(element) {
+    if (!(element.scrollWidth > element.clientWidth)) {
+        if (element.classList.contains("scrolltext")) {
+            element.classList.remove("scrolltext");
+        }
+        return;
+    }
+
+    const scrollDistance = element.scrollWidth - element.offsetWidth
+    const duration = (scrollDistance / 50) + 2;
+
+
+    root.style.setProperty('--duration', `${duration}s`);
+    root.style.setProperty('--distance', `${scrollDistance}px`);
+
+    const sheet = document.styleSheets[5];
+
+    for (let i = sheet.cssRules.length - 1; i >= 0; i--) {
+        if (sheet.cssRules[i].name === 'custom') {
+            sheet.deleteRule(i);
+        }
+    }
+    
+    const percent = 1 / (duration / 100);
+
+    const keyframe = `
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        ${percent}% { transform: translateX(0); }
+        ${100-percent}% { transform: translateX(calc(-1 * var(--distance))); }
+        100% { transform: translateX(calc(-1 * var(--distance))); }
+    }`;
+
+    sheet.insertRule(keyframe, sheet.cssRules.length);
+
+    if (!element.classList.contains("scrolltext")) {
+        element.classList.add("scrolltext");
+    } else {
+        element.classList.remove("scrolltext");
+        void element.offsetWidth;
+        element.classList.add("scrolltext");
+    }
 }
 
 function HideUI() {
@@ -78,14 +121,17 @@ quits.forEach(button => {
 
 window.electronAPI.onUpdateTitle((value) => {
     title.textContent = value;
+    scrollAnimate(title);
 })
 
 window.electronAPI.onUpdateArtist((value) => {
     artist.textContent = value;
+    scrollAnimate(artist);
 })
 
 window.electronAPI.onUpdateCover((value) => {
-    cover.src = value;
+    const timestamp = new Date().getTime();
+    cover.src = value + '?' + timestamp;
 })
 
 window.electronAPI.onUpdateLyrics((value) => {

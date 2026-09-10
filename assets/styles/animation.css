@@ -1,0 +1,16 @@
+:root {
+    --duration: 2s;
+    --distance: 100px;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    10% { transform: translateX(0); }
+    90% { transform: translateX(calc(-1 * var(--distance))); }
+    100% { transform: translateX(calc(-1 * var(--distance))); }
+}
+
+.scrolltext {
+    animation: scroll var(--duration) linear 1s infinite alternate;
+}
+
