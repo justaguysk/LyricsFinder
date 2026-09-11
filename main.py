@@ -311,12 +311,18 @@ def runLyricFinder():
             rdict = json.loads(r.text)
             lyrics = rdict["lyrics"].replace('\n', '<br>')
 
+        elif r.status_code != 404:
+            lyrics = f"Request status code: {r.status_code}"
+
         elif '-' in currentArtist or '/' in currentArtist or '-' in currentTitle or '/' in currentTitle:
             r2 = requests.get(f'{ENDPOINT}/{quote(currentArtist, safe='')}/{quote(currentTitle, safe='')}')
 
             if r2.status_code == 200: 
                 rdict = json.loads(r2.text)
                 lyrics = rdict["lyrics"].replace('\n', '<br>')
+
+            elif r2.status_code != 404:
+                lyrics = f"Request status code: {r2.status_code}"
             
 
         writeToMainJS({
