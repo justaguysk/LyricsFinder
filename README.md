@@ -2,7 +2,7 @@
 
 > [!WARNING]
 > This app is **NOT** code signed.\
-> Antivirus pop-ups may appear when running it. That does not mean it is unsafe. If unconvinced [build it yourself](BUILD.md).
+> Antivirus pop-ups may appear when running it. That does not mean it is unsafe. If unconvinced [build it yourself](.github/BUILD.md).
 
 ![image demonstration](assets/mdimage.png)
 
