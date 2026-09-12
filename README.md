@@ -27,7 +27,7 @@ Some development decisions may seem quite odd. Like having a Python back-end whi
 
 It all boils down to me wanting to hone my skills in Electron, it's inter-process communication, HTML, CSS, etc. and I wanted to try achieving all that in one project.
 
-Learning coding in the AI era is a bit scary. It's difficult to differenciate between the fearmongering of AI company CEOs and the actual unbiased information. I have hope, however, that the situation can get better. It only takes a few people to make a big difference.
+Learning coding in the AI era is a bit scary. It's difficult to differentiate between the fearmongering of AI company CEOs and the actual unbiased information. I have hope, however, that the situation can get better. It only takes a few people to make a big difference.
 
 I admit that the code may be a bit wonky, feel free to share any tips/issues that you may have.
 
