@@ -7,7 +7,7 @@ module.exports = {
       unpackDir: 'pyInstaller'
     },
     executableName: 'lyricsfinder',
-    ignore: '.venv',
+    ignore: '.venv|misc',
   },
   rebuildConfig: {},
   makers: [
