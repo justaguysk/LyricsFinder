@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "A simple app that fetches lyrics for currently playing media",
   "license": "MIT",
-  "author": "zebrak",
+  "author": "justaguysk",
   "type": "commonjs",
   "main": "main.js",
   "scripts": {

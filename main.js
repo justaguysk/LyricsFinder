@@ -7,7 +7,7 @@ const basedir = (app.isPackaged) ? path.join(process.resourcesPath, 'app.asar.un
 let commandExists = require('command-exists').sync;
 
 
-app.setAppUserModelId("com.windows.zebrak.LyricsFinder");
+app.setAppUserModelId("com.windows.justaguysk.LyricsFinder");
 
 let mainWindow;
 let config;
