@@ -4,7 +4,7 @@ This project is **NOT** signed. Signing costs a lot of money every month. Money 
 
 That means there is no credible SHA-256 signature with which you could verify that the provided release distributables contain the same code the current Github repository does. The distributables could be filled with viruses for all you know (they're not) and the only assurance of safety you'd have is my word.
 
-By building the app yourself, you insure that the code it runs is identical to the code in this repository, which is publically available and thus can be checked for malicious intent. You can even tweak the app to your desires.
+By building the app yourself, you insure that the code it runs is identical to the code in this repository, which is publicly available and thus can be checked for malicious intent. You can even tweak the app to your desires.
 
 This guide is aimed at beginners, even though some basic coding/computer knowledge is expected.
 
@@ -105,7 +105,7 @@ Inside dist, there is a file named *main.exe (Windows)* or *main (Linux)*. Move 
 
 When you downloaded *NodeJS* (if you followed the instructions), it bundled the *npm package manager* with it. You'll need it to install *Electron*/*Electron Forge* and other dependencies, so that you can build the final distributable.
 
-There is file named *package.json*, where all the required dependencies are listed. *Npm* will read that file and install everything for you.
+There is a file named *package.json*, where all the required dependencies are listed. *Npm* will read that file and install everything for you.
 
 Run:
 
@@ -119,7 +119,7 @@ You should now have a folder called *node_modules*, where all the dependencies a
 
 This is the app itself. You could theoretically already run the code from your code editor, but it's much nicer and more convenient to have it as an app. It was made for that purpose.
 
-The build configuration is in the *forge.config.js* file. The 2 pre-configured distributable types are: *zip (Windows)* and *deb (Linux)*. You can configure other distributable types, but that requires knowlegde of *Electron* and its packaging.
+The build configuration is in the *forge.config.js* file. The 2 pre-configured distributable types are: *zip (Windows)* and *deb (Linux)*. You can configure other distributable types, but that requires knowledge of *Electron* and its packaging.
 
 To install the distributable for your platform, run:
 
