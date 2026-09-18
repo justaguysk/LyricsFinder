@@ -1,0 +1,23 @@
+:root {
+    --duration: 2s;
+    --distance: 100px;
+    --maincolor: #eef2f9;
+    --bordercolor: #a0a4ab;
+    --bgcolor: #e8e8ef;
+    --pcolor: #424348;
+    --shadowcolor: rgba(167, 167, 167, 0.4);
+    --covershadowcolor: rgba(39, 40, 40, 0.2);
+    --trackcolor: #292b2e;
+    --artistcolor: #5a5e61;
+    --scrolltrack: #909193;
+    --scrollthumb: #686a6c;
+    --selectionbg: #b6b6c7;
+    --selectiontext: #23252b;
+    --headerselectionbg: #c4c4d9;
+    --headerselectiontext: #292b2e;
+    --buttonhover: #c4c4cd;
+    --buttonshadow: rgba(46, 48, 48, 0.3);
+    --footercolor: #3e3f43;
+    --nohover: #1c1c1f;
+    --yeshover: #1c1c1f;
+}

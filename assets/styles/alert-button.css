@@ -21,10 +21,10 @@
     padding-top: 1.5em;
     padding-bottom: 1.5em;
 
-    background-color: #e6e9ee;
-    border: 0.12em solid #a0a4ab;
+    background-color: var(--maincolor);
+    border: 0.12em solid var(--bordercolor);
     border-radius: 0.5em;
-    box-shadow: 0em 0em 3em rgba(46, 48, 48, 0.3);
+    box-shadow: 0em 0em 3em var(--buttonshadow);
 }
 
 .notext {
@@ -43,8 +43,8 @@
 }
 
 .yesbutton {
-    background-color: #3e3f43;
-    color: #e6e9ee;
+    background-color: var(--footercolor);
+    color: var(--maincolor);
     font-size: 1em;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -62,14 +62,14 @@
 }
 
 .nobutton {
-    background-color: #e6e9ee;
-    color: #3e3f43;
+    background-color: var(--maincolor);
+    color: var(--footercolor);
     font-size: 1em;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     text-align: center;
 
-    border: 0.1em solid #3e3f43;
+    border: 0.1em solid var(--footercolor);
     border-radius: 1em;
     padding-top: 0.45em;
     padding-bottom: 0.45em;
@@ -82,13 +82,13 @@
 }
 
 .nobutton:hover {
-    color: #1c1c1f;
-    border: 0.1em solid #1c1c1f;
+    color: var(--nohover);
+    border: 0.1em solid var(--nohover);
     transition: 0.2s;
 }
 
 .yesbutton:hover {
-    background-color: #1c1c1f;
+    background-color: var(--yeshover);
     transition: 0.2s;
 }
 

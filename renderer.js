@@ -5,9 +5,7 @@ const lyrics = document.getElementById("lyrics");
 const stat = document.getElementById("status");
 const player = document.getElementById("player");
 const switchbutton = document.getElementById("switchButton");
-const generalcss = document.getElementById("generalcss");
-const headercss = document.getElementById("headercss");
-const footercss = document.getElementById("footercss");
+const varcss = document.getElementById("vars");
 const switchImg = document.getElementById("switchImg");
 const quitImg = document.getElementById("quitImg");
 const header = document.getElementById("header");
@@ -16,7 +14,6 @@ const onmac = document.getElementById("onmac");
 const nocli = document.getElementById("nocli");
 const installplayer = document.getElementById("installplayer");
 const quits = document.querySelectorAll(".quits");
-const alertcss = document.getElementById("alertcss");
 const cliText = document.getElementById("clitext");
 const root = document.querySelector(':root');
 
@@ -26,18 +23,12 @@ function onSwitchClick() {
         switchImg.src = "assets/darkmode.png";
         quitImg.src = "assets/quit-dark.png";
 
-        generalcss.href = "assets/styles/general-dark.css";
-        headercss.href = "assets/styles/header-dark.css";
-        footercss.href = "assets/styles/footer-dark.css";
-        alertcss.href = "assets/styles/alert-button-dark.css"
+        varcss.href = "assets/styles/variables-dark.css";
     } else {
         switchImg.src = "assets/lightmode.png";
         quitImg.src = "assets/quit-light.png";
 
-        generalcss.href = "assets/styles/general-light.css";
-        headercss.href = "assets/styles/header-light.css";
-        footercss.href = "assets/styles/footer-light.css";
-        alertcss.href = "assets/styles/alert-button-light.css"
+        varcss.href = "assets/styles/variables-light.css";
     }
 
     window.electronAPI.onSwitchClicked(null);

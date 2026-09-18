@@ -1,3 +1,5 @@
+@import url("variables.css");
+
 #header {
     height: 6em;
     width: auto;
@@ -12,11 +14,11 @@
     right: 0;
     z-index: 100;
 
-    background-color: #28292b;
-    border: 0.12em solid #333539;
+    background-color: var(--maincolor);
+    border: 0.12em solid var(--bordercolor);
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
-    box-shadow: 0em 0.5em 0.5em rgba(30, 30, 30, 0.4); 
+    box-shadow: 0em 0.5em 0.5em var(--shadowcolor); 
 
     padding-left: 1em;
     padding-right: 1em;
@@ -36,7 +38,7 @@
     width: 4em;
     border-radius: 0.25em;
     margin-right: 1.25em;
-    box-shadow: 0em 0em 1em rgba(92, 93, 94, 0.2);
+    box-shadow: 0em 0em 1em var(--covershadowcolor);
 
     object-fit: cover;
     object-fit: contain;
@@ -45,12 +47,12 @@
 #trackName {
     font-size: 1.15em;
     font-weight: bold;
-    color: rgb(216, 223, 231);
+    color: var(--trackcolor);
     line-height: 1em;
     margin-bottom: 0.6em;
 }
 
 #artistName {
     font-size: 0.95em;
-    color: rgb(198, 206, 213);
+    color: var(--artistcolor);
 }

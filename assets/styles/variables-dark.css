@@ -1,0 +1,23 @@
+:root {
+    --duration: 2s;
+    --distance: 100px;
+    --maincolor: #28292b;
+    --bordercolor: #333539;
+    --bgcolor: #1a1a1d;
+    --pcolor: #969ca6;
+    --shadowcolor: rgba(30, 30, 30, 0.4);
+    --covershadowcolor: rgba(92, 93, 94, 0.2);
+    --trackcolor: #d8dfe7;
+    --artistcolor: #c6ced5;
+    --scrolltrack: #28292b;
+    --scrollthumb: #494c52;
+    --selectionbg: #363640;
+    --selectiontext: #bec5d1;
+    --headerselectionbg: #4c4c56;
+    --headerselectiontext: #e3effd;
+    --buttonhover: #232325;
+    --buttonshadow: rgba(103, 106, 106, 0.1);
+    --footercolor: #61656c;
+    --nohover: #494c52;
+    --yeshover: #46494f;
+}

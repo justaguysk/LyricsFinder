@@ -4,7 +4,7 @@ body {
     margin-left: 2em;
     margin-right: 2em;
     padding: 0;
-    background-color: rgb(26, 26, 29)
+    background-color: var(--bgcolor);
 }
 
 p {
@@ -12,7 +12,12 @@ p {
     margin-bottom: 0;
     font-size: 1.05em;
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(150, 156, 166);
+    color: var(--pcolor);
+}
+
+#lyrics {
+    overflow: auto;
+    line-height: 1.75em;
 }
 
 ::-webkit-scrollbar {
@@ -20,20 +25,20 @@ p {
 }
 
 ::-webkit-scrollbar-track {
-    background: #28292b;
+    background: var(--scrolltrack);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #45484d;
+    background: var(--scrollthumb);
     border-radius: 0.115em;
 }
 
 ::selection {
-    background: rgb(54, 54, 64);
-    color: rgb(190, 197, 209);
+    background: var(--selectionbg);
+    color: var(--selectiontext);
 }
 
 #trackName::selection, #artistName::selection {
-    background: rgb(76, 76, 86);
-    color: rgb(227, 239, 253);
+    background: var(--headerselectionbg);
+    color: var(--headerselectiontext);
 }

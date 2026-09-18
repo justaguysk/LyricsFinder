@@ -1,7 +1,7 @@
 {
   "name": "lyricsfinder",
   "productName": "LyricsFinder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple app that fetches lyrics for currently playing media",
   "license": "MIT",
   "author": "justaguysk",

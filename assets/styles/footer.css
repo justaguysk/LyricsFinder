@@ -13,13 +13,13 @@
 
     height: 2.5em;
     width: auto;
-    background-color: #28292b;
+    background-color: var(--maincolor);
 
-    border-top: 0.12em solid #333539;
-    border-bottom: 0.12em solid #333539;
+    border-top: 0.12em solid var(--bordercolor);
+    border-bottom: 0.12em solid var(--bordercolor);
     border-top-left-radius: 0.4em;
     border-top-right-radius: 0.4em;
-    box-shadow: 0em -0.5em 0.5em rgba(30, 30, 30, 0.4); 
+    box-shadow: 0em -0.5em 0.5em var(--shadowcolor); 
 
     padding-left: 1em;
     padding-right: 1em;
@@ -54,7 +54,7 @@
 }
 
 .button:hover {
-    background-color: #232325;
+    background-color: var(--buttonhover);
     transition: 0.2s;
 }
 
@@ -75,5 +75,5 @@
 }
 
 #player, #status, #sep {
-    color: #61656c;
+    color: var(--footercolor);
 }
